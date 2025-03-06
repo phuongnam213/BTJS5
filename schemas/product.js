@@ -21,10 +21,11 @@ let productSchema = new mongoose.Schema({
         type:String,
         default:""
     },category:{
-        type:String,
+        type:mongoose.Types.ObjectId,
+        ref:'category',
         required:true
     }
 },{
     timestamps:true
 })
-module.exports = mongoose.model('product',productSchema)
+module.exports = mongoose.model('product',productSchema);
