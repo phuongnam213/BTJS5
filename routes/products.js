@@ -107,13 +107,39 @@ router.put('/:id', async function(req, res, next) {
         });
       }
     }
-    let newProduct = await productModel.findByIdAndUpdate(req.params.id,
+    let updatedProduct = await productModel.findByIdAndUpdate(req.params.id,
       updateObj,
       {new:true})
     res.status(200).send({
       success:true,
-      data:newProduct
+      data:updatedProduct
     });
+  } catch (error) {
+    res.status(404).send({
+      success:false,
+      message:error.message
+    });
+  }
+});
+router.delete('/:id', async function(req, res, next) {
+  try {
+    let product = await productModel.findById(req.params.id);
+    if(product){
+      let deletedProduct = await productModel.findByIdAndUpdate(req.params.id,
+        {
+          isDeleted:true
+        }},
+        {new:true})
+        res.status(200).send({
+          success:true,
+          data:deletedProduct
+        });
+    }else{
+      res.status(404).send({
+        success:false,
+        message:"ID khong ton tai"
+      });
+    }
   } catch (error) {
     res.status(404).send({
       success:false,

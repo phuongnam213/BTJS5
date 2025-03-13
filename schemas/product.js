@@ -25,6 +25,10 @@ let productSchema = new mongoose.Schema({
         ref:'category',
         required:true
     }
+    ,isDeleted:{
+        type:Boolean,
+        default:false
+    }
 },{
     timestamps:true
 })
