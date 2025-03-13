@@ -128,7 +128,7 @@ router.delete('/:id', async function(req, res, next) {
       let deletedProduct = await productModel.findByIdAndUpdate(req.params.id,
         {
           isDeleted:true
-        }},
+        },
         {new:true})
         res.status(200).send({
           success:true,
