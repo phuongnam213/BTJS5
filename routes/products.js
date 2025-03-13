@@ -85,5 +85,40 @@ router.post('/', async function(req, res, next) {
     });
   }
 });
-
+router.put('/:id', async function(req, res, next) {
+  try {
+    let updateObj = {};
+    let body = req.body;
+    if(body.name){
+      updateObj.name = body.name;
+    }
+    if(body.price){
+      updateObj.price = body.price;
+    }
+    if(body.quantity){
+      updateObj.quantity = body.quantity;
+    }
+    if(body.category){
+      let cate = await CategoryModel.findOne({name:req.body.category});
+      if(!cate){
+        res.status(404).send({
+          success:false,
+          message:error.message
+        });
+      }
+    }
+    let newProduct = await productModel.findByIdAndUpdate(req.params.id,
+      updateObj,
+      {new:true})
+    res.status(200).send({
+      success:true,
+      data:newProduct
+    });
+  } catch (error) {
+    res.status(404).send({
+      success:false,
+      message:error.message
+    });
+  }
+});
 module.exports = router;
