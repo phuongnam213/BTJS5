@@ -21,5 +21,22 @@ router.post('/login', async function (req, res, next) {
         next(error)
     }
 });
+router.post('/signup', async function (req, res, next) {
+    try {
+        let body = req.body;
+        let username = body.username;
+        let password = body.password;
+        let email = body.email
+        let result = await userController.CreateAnUser(
+            username, password,email,'user');
+        let token = jwt.sign({
+            id:result._id,
+            expire: new Date(Date.now()+24*3600*1000)
+        },constants.SECRET_KEY)
+        CreateSuccessRes(res, 200,token );
+    } catch (error) {
+        next(error)
+    }
+});
 
 module.exports = router;
