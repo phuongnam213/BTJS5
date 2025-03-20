@@ -4,7 +4,7 @@ let bcrypt = require('bcrypt')
 
 module.exports = {
     GetAllUser: async () => {
-        return await userSchema.find({});
+        return await userSchema.find({}).populate('role');
     },
     GetUserById: async (id) => {
         return await userSchema.findById(req.params.id);
@@ -34,5 +34,28 @@ module.exports = {
             }
             return await user.save();
         }
+    },
+    DeleteUser: async function (id) {
+        let user = await userSchema.findById(id);
+        if (user) {
+            user.status = false;
+            return await user.save();
+        }
+    },
+    Login: async function (username,password){
+        let user = await userSchema.findOne({
+            username:username
+        })
+        if(!user){
+            throw new Error("username hoac mat khau khong dung")
+        }else{
+            console.log(bcrypt.compareSync(password,user.password));
+            if(bcrypt.compareSync(password,user.password)){
+                return user;
+            }else{
+                throw new Error("username hoac mat khau khong dung")
+            }
+        }
+
     }
 }
