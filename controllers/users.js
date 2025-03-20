@@ -7,7 +7,7 @@ module.exports = {
         return await userSchema.find({}).populate('role');
     },
     GetUserById: async (id) => {
-        return await userSchema.findById(req.params.id);
+        return await userSchema.findById(id).populate('role');
     },
     CreateAnUser: async (username, password, email, role) => {
         let GetRole = await roleController.GetRoleByName(role);
