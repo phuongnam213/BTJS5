@@ -29,7 +29,7 @@ app.use('/categories', require('./routes/categories'));
 //
 mongoose.connect('mongodb://localhost:27017/C5');
 mongoose.connection.on('connected',function(){
-  console.log("connected hehehe");
+  console.log("connected");
 })
 
 // catch 404 and forward to error handler
